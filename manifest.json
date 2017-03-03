@@ -1,0 +1,26 @@
+{
+    "manifest_version": 2,
+
+    "name": "Getting started example",
+    "description": "This extension shows a Google Image search result for the current page",
+    "version": "1.0",
+
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "activeTab",
+        "https://ajax.googleapis.com/",
+        "http://xyq.cbg.163.com/",
+        "webNavigation",
+        "http://xyq.yananbdw.com/",
+        "tabs",
+        "contextMenus"
+    ],
+    "content_scripts": [{
+        "matches": ["http://xyq.cbg.163.com/cgi-bin/xyq_overall_search.py"], //改成你要加载的页面url,比如*://www.baidu.com/
+        "js": ["popup.js"],
+        "run_at": "document_end"
+    }]
+}
