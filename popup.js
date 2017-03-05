@@ -78,7 +78,7 @@ if (window.location.href === 'http://xyq.cbg.163.com/cgi-bin/xyq_overall_search.
     };
 
     a.forEach((e, i) => {
-        if (i !== 0) {
+        if (i !== 0 && i < 5) {
             const href = e.querySelector('td a').href;
             console.log(compareUrl(href));
             if (compareUrl(href)) {
@@ -106,4 +106,4 @@ chrome.tabs.executeScript(null, { code: code });
 
 setInterval(() => {
     chrome.tabs.executeScript(null, { code: code });
-}, 10 * 1000);
+}, 30 * 1000);
