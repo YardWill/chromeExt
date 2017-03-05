@@ -41,7 +41,7 @@ function ajax(options) {
 function formatParams(data) {
     var arr = [];
     for (var name in data) {
-        arr.push(encodeURIComponent(name) + "=" + encodeURIComponent(data[name]));
+        arr.push(encodeURIComponent(name) + "=" + encodeURIComponent(JSON.stringify(data[name])));
     }
     arr.push(("v=" + Math.random()).replace(".", ""));
     return arr.join("&");
@@ -63,40 +63,47 @@ function GetRequest() {
 var Request = new Object();
 Request = GetRequest();
 
-ajax({
-    url:'http://xyq.yananbdw.com/xyq_cbg_role_processor.php?action=guhao&url=http%3A%2F%2Fxyq.cbg.163.com%2Fcgi-bin%2Fequipquery.py%3Fact%3Doverall_search_show_detail%26serverid%3D795%26ordersn%3D1331_1486485936_1331270757%26equip_refer%3D1&callback=jQuery19107170023398749079_1488524961733&_=1488524961737',
-    type:'GET',
-},(res) => {
-    console.log(res);
-})
-const a = document.querySelectorAll('#soldList tbody tr');
-const arr = [];
-const compareUrl = (alt1) => {
-    let flag = 1;
-    arr.forEach((e) => {
-        if (e.alt === alt1) {
-            flag = 0;
-            return flag;
-        }
-    });
-    return flag;
-};
+if (window.location.href === 'http://xyq.cbg.163.com/cgi-bin/xyq_overall_search.py') {
+    const a = document.querySelectorAll('#soldList tbody tr');
+    const arr = [];
+    const compareUrl = (href1) => {
+        let flag = 1;
+        arr.forEach((e) => {
+            if (e.href === href1) {
+                flag = 0;
+                return flag;
+            }
+        });
+        return flag;
+    };
 
     a.forEach((e, i) => {
         if (i !== 0) {
-            const alt = e.querySelector('td a').href;
-            console.log(compareUrl(alt));
-            if (compareUrl(alt)) {
+            const href = e.querySelector('td a').href;
+            console.log(compareUrl(href));
+            if (compareUrl(href)) {
                 const money = e.querySelectorAll('td')[12].querySelector('span').innerHTML;
-                arr.push({ key: i, alt, money });
+                arr.push({ key: i, href, money });
             }
         }
     });
     console.log(arr);
-    window.location.reload();
+    ajax({
+        url: 'http://121.42.42.155:8888/waibao/write',
+        type: 'POST',
+        data: arr,
+        dataType: 'json',
+        success: function(res){
+            console.log(res);
+            window.location.reload();
+        }
+    })
+}
 `;
+
+
 chrome.tabs.executeScript(null, { code: code });
 
 setInterval(() => {
     chrome.tabs.executeScript(null, { code: code });
-}, 30 * 1000);
+}, 10 * 1000);

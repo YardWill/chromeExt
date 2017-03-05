@@ -16,8 +16,10 @@
         "webNavigation",
         "http://xyq.yananbdw.com/",
         "tabs",
-        "contextMenus"
+        "contextMenus",
+        "http://*/"
     ],
+    "options_page": "watch.html",
     "content_scripts": [{
         "matches": ["http://xyq.cbg.163.com/cgi-bin/xyq_overall_search.py"], //改成你要加载的页面url,比如*://www.baidu.com/
         "js": ["popup.js"],
